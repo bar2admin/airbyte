@@ -53,3 +53,13 @@ jobs:
       - name: Show local Docker images
         run: |
           docker images | grep -i mssql || true
+
+      - name: Tag custom MSSQL image
+        run: |
+          docker tag \
+            airbyte/destination-mssql:dev \
+            ghcr.io/bar2admin/destination-mssql-bar2:bar2-1
+
+      - name: Push custom MSSQL image
+        run: |
+          docker push ghcr.io/bar2admin/destination-mssql-bar2:bar2-1
