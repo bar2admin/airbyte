@@ -1,0 +1,53 @@
+name: Build Bar2 MSSQL Destination
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - bar2/mssql-utf8-collation-fix
+    paths:
+      - "airbyte-integrations/connectors/destination-mssql/**"
+      - ".github/workflows/build-mssql-destination.yml"
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: bar2admin/destination-mssql-bar2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Build connector
+        run: |
+          ./gradlew :airbyte-integrations:connectors:destination-mssql:build
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ghcr.io/bar2admin/destination-mssql-bar2:bar2-1 \
+            airbyte-integrations/connectors/destination-mssql
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/bar2admin/destination-mssql-bar2:bar2-1
