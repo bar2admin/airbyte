@@ -138,7 +138,7 @@ const val CREATE_INDEX_QUERY = """
     """
 
 const val DROP_TABLE_QUERY = """
-        DROP TABLE [?].[?];
+        DROP TABLE IF EXISTS [?].[?];
     """
 
 const val INSERT_INTO_QUERY =
@@ -530,3 +530,4 @@ class MSSQLQueryBuilder(
         }
     }
 }
+
