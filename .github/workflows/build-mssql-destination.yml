@@ -43,12 +43,16 @@ jobs:
           ./gradlew :airbyte-integrations:connectors:destination-mssql:build \
             -x :airbyte-integrations:connectors:destination-mssql:integrationTestJava
 
-      - name: Build Docker image
+      - name: Show MSSQL Docker tasks
         run: |
-          docker build \
-            -t ghcr.io/bar2admin/destination-mssql-bar2:bar2-1 \
-            airbyte-integrations/connectors/destination-mssql
+          ./gradlew :airbyte-integrations:connectors:destination-mssql:tasks --all | grep -i docker
 
-      - name: Push Docker image
+      - name: Docker build placeholder
         run: |
-          docker push ghcr.io/bar2admin/destination-mssql-bar2:bar2-1
+          echo "Connector compiled successfully."
+          echo "Waiting to identify the correct Airbyte Docker Gradle task."
+
+      - name: GHCR target
+        run: |
+          echo "Target image will be:"
+          echo "${REGISTRY}/${IMAGE_NAME}:bar2-1"
