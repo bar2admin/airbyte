@@ -16,6 +16,7 @@ permissions:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: bar2admin/destination-mssql-bar2
+  DOCKER_BUILDKIT: "1"
 
 jobs:
   build:
@@ -37,6 +38,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+
+      - name: Enable Docker BuildKit
+        run: |
+          echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV
+          docker version
 
       - name: Build connector
         run: |
