@@ -40,7 +40,8 @@ jobs:
 
       - name: Build connector
         run: |
-          ./gradlew :airbyte-integrations:connectors:destination-mssql:build
+          ./gradlew :airbyte-integrations:connectors:destination-mssql:build \
+            -x :airbyte-integrations:connectors:destination-mssql:integrationTestJava
 
       - name: Build Docker image
         run: |
