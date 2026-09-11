@@ -29,7 +29,7 @@ enum class MssqlType(val sqlType: Int, val sqlStringOverride: String? = null) {
     DECIMAL(Types.DECIMAL, sqlStringOverride = "DECIMAL(38, 8)"),
     VARCHAR(Types.VARCHAR, sqlStringOverride = "VARCHAR(MAX)"),
     VARCHAR_INDEX(Types.VARCHAR, sqlStringOverride = "VARCHAR(200)"),
-    TEXT(Types.LONGVARCHAR),
+    TEXT(Types.LONGNVARCHAR, sqlStringOverride = "NVARCHAR(MAX)"),
     DATE(Types.DATE),
     TIME(Types.TIME),
     DATETIME(Types.TIMESTAMP),
@@ -61,3 +61,4 @@ object AirbyteTypeToMssqlType {
         }
     }
 }
+
